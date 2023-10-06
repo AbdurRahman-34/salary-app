@@ -46,6 +46,7 @@ const drawChart = function drawChart(data) {
 };
 
 //save new item
+const modal = document.getElementById("modal")
 document.addEventListener("DOMContentLoaded", () => {
   initializeChart(salary_data);
   document
@@ -53,7 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", addRecordHandler);
   const btnShowLast = document.getElementById("showLast");
   btnShowLast.addEventListener("click", function showLastHandler(e) {
-    showLastItem();
+    alert("${showLastItem}")
+    const div = document.createElement('div');
+    div.style.backgroundColor = "gray"
+    div.innerHTML = `
+    <h1>Name: ${salary_data[0].name}</h1>
+    <p>Salary :${salary_data[0].salary}</p>
+    `
+    modal.appendChild(div)
   });
 
   document
@@ -83,12 +91,16 @@ function addRecordHandler() {
   const name = document.getElementById("name").value;
   const salary = document.getElementById("salary").value;
 
-  if (!name || !salary) {
+  if (!name && !salary) {
     showDataError(name, salary);
     return;
   }
 
-  addRecord(name, !salary);
+  addRecord(name, salary);
+
+  document.getElementById("name").value = '';
+  document.getElementById("salary").value = '';
+
 }
 
 function addRecord(name, salary) {
@@ -225,7 +237,7 @@ const uniquifyNames = function (items) {
   const uniqueNames = {};
 
   return items.map(function (item) {
-    if (uniqueNames[item.name]) {
+    if (uniqueNames[item.name] !== undefined) {
       uniqueNames[item.name] += " ";
       item.name += uniqueNames[item.name];
     } else {
@@ -234,3 +246,11 @@ const uniquifyNames = function (items) {
     return item;
   });
 };
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  console.log('DOM fully loaded and parsed');
+});
+
+
+
